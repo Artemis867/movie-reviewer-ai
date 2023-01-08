@@ -12,12 +12,7 @@ function App() {
         paddingTop: "100px",
       }}
     >
-      <Box
-        sx={{
-          paddingTop: "100px",
-        }}
-      >
-        <h1>Movie Review Chatbot</h1>
+      <Box>
         <Form></Form>
       </Box>
     </Container>
