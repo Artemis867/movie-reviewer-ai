@@ -6,30 +6,36 @@ import { API_URL } from "../config";
 import { useState, useCallback, useEffect } from "react";
 import Result from '../result/Result';
 import Grid from '@mui/material/Grid';
+import { Typography } from "@mui/material";
+import { subheaderStyle } from './style';
 
 const Form = () => {
 
   const [reviewData, setReviewData] = useState('');
   const [movieData, setMovieData] = useState('');
+  const [onGenerating, setOnGenerating] = useState(false);
 
   const handleRequest = useCallback(async () => {
     try {
-      console.log('event sent');
+      setReviewData('');
+      setOnGenerating(true);
       const commandReq = {
         movie: movieData
       }
-      const response = await axios.post(API_URL+'/command/test/review', commandReq);
+      const response = await axios.post(API_URL + '/command/review', commandReq);
       console.log('API RESPONSE');
-      console.log(response.data?.review);
+      console.log(response.data);
+
       setReviewData(response.data?.review);
+      setOnGenerating(false);
     } catch (err) {
       console.log(err);
     }
-  },[movieData, setReviewData]);
+  }, [movieData, setReviewData, setOnGenerating]);
 
   const handleChange = useCallback((e: any) => {
     setMovieData(e.target.value);
-  },[setMovieData]);
+  }, [setMovieData]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -42,11 +48,18 @@ const Form = () => {
               maxWidth: "100%",
             }}
           >
-            <h1>Movie Review Chatbot</h1>
-            <TextField 
-              fullWidth 
-              label="type a movie title" name="movieTitle" 
-              onChange={handleChange}/>
+            <Typography component={"h4"} variant="h4">
+              Myubi
+            </Typography>
+            <Typography variant="body2" component={"h4"} sx={subheaderStyle} gutterBottom>
+              Myubi is a movie reviewer chatbot that will help you to create or give insights of a specific movie with a precise review to provide a useful and substantial ideas.
+            </Typography>
+
+            <TextField
+              fullWidth
+              disabled={onGenerating}
+              label="Movie Title" name="movieTitle"
+              onChange={handleChange} />
             <Button
               sx={{
                 marginTop: "5px",
@@ -54,9 +67,11 @@ const Form = () => {
               }}
               type="submit"
               variant="outlined"
+              disabled={onGenerating}
               onClick={handleRequest}
             >
-              Send
+              {onGenerating && 'Sending...'}
+              {!onGenerating && 'Send'}
             </Button>
           </Box>
         </Grid>

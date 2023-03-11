@@ -1,18 +1,20 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import Typewriter from 'typewriter-effect';
+import { Typography } from "@mui/material";
 
-const Result = ({review}: any) => {
+const Result = ({ review }: any) => {
 
   const reviewStyle: any = {
     textAlign: 'justify',
     wordSpacing: '2px',
     wordBreak: 'keep-all',
+    fontSize: '18px',
   }
 
   return (
     <>
-      <Box 
+      <Box
         sx={{
           paddingLeft: {
             md: "150px",
@@ -22,30 +24,30 @@ const Result = ({review}: any) => {
             md: "0px",
             xs: "50px",
           },
-        }} 
+        }}
         className="result-container"
       >
         {/* {review} */}
-        {review !== '' ? 
+        {review !== '' ?
           (
-            <p style={reviewStyle}>
+            <Typography component={"span"} variant={'body2'} sx={reviewStyle}>
               <Typewriter
                 onInit={(typewriter) => {
                   typewriter.typeString(review)
-                    .callFunction(() => {
-                      console.log('String typed out!');
-                    })
+                    // .callFunction(() => {
+                    //   console.log('String typed out!');
+                    // })
                     .pauseFor(2500)
-                    .callFunction(() => {
-                      console.log('All strings were deleted');
-                    })
+                    // .callFunction(() => {
+                    //   console.log('All strings were deleted');
+                    // })
                     .start();
                 }}
                 options={{
-                  delay: 20,
+                  delay: 18,
                 }}
               />
-            </p>
+            </Typography>
           ) : null
         }
       </Box>
